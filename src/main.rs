@@ -1,4 +1,3 @@
-
 const BYTES_IN_LINE: usize = 16;
 const WHITESPACE_ASCII: u8 = 32;
 const NOT_PRINTABLE_ASCII: u8 = 46;
@@ -38,29 +37,53 @@ fn hexdump(bytes: Vec<u8>) {
     }
 }
 
-fn main() {
+/// Prints help
+fn print_help() {
+    println!("Usage:");
+    println!("    hexdump [OPTIONS] <FILE_PATH>\n");
+    println!("Options:");
+    println!("    -v, --version  Print version info and exit");
+    println!("    -h, --help     Print help and exit");
+}
+
+/// Prints a version information
+fn print_version() {
+    println!("hexdump 1.0.0 2024-09-09");
+}
+
+/// Main
+fn main() -> Result<(), &'static str> {
     let args: Vec<String> = std::env::args().skip(1).collect();
     match args.get(0) {
         Some(s) => {
+            if s == "--help" || s == "-h" {
+                print_help();
+                return Ok(());
+            }
+
+            if s == "--version" || s == "-v" {
+                print_version();
+                return Ok(());
+            }
+
             let input_path = std::path::PathBuf::from(s);
             match std::fs::canonicalize(input_path) {
                 Ok(absolute_path) => {
                     if absolute_path.is_dir() {
-                        println!("FAILED: Cannot read a directory!");
-                        return;
+                        return Err("Cannot read a directory!");
                     }
                     
                     let byte_array = std::fs::read(absolute_path).unwrap();
                     hexdump(byte_array);
+                    return Ok(());
                 },
                 Err(_) => {
-                    println!("FAILED: Invalid filepath was given!");
+                    return Err("Invalid filepath was given!");
                 }
             }
         },
         None => {
-            println!("FAILED: No path to a file was given!");
+            return Err("No path to a file was given!");
         }
     }
-    
 }
