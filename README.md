@@ -1,5 +1,5 @@
 # Hexdump
-An extremely simple hexdump program for commandline use. 
+An extremely simple open-source hexdump program for commandline use. 
 The program shows the contents of a file in the console in hexadecimal.
 The contents of a file are also represented in ASCII after the hexadecimal representation.
 
@@ -10,6 +10,6 @@ The contents of a file are also represented in ASCII after the hexadecimal repre
 - Add the directory containing the `.exe` -file to the path for easy access.
 
 ### Usage
-The program can be started by typing the command: `hexdump <file>`, where the "file" represents a path to a file (relative or absolute).
-The program does not take in any modifiers nor multiple files at once.
+The program can be started by typing the command: `hexdump [OPTIONS] <FILE_PATH>`, where the "FILE_PATH" represents a path to a file (relative or absolute) and options represent optional modifiers.
+The program has two different options for showing version information and help (type `hexdump -h` for more information).
 The program can be used for analysing data in binary files.
